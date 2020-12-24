@@ -24,13 +24,13 @@ def message_received(payload):
     print("message_received")
     print(payload)
     message = payload['message']
-    id_code = str(payload['phone_id'])
+    phone_id = str(payload['phone_id'])
     id_message = message['id']
-    node2 = get_id_name_entity(session, id_code)
+    node2 = get_id_name_entity(session, phone_id)
     user = payload['user']
     id_user = user['id']
     exists = get_ticket(session, id_user, node2)
-    tickets_id = build_tickets(session=session, id_message=id_message, payload=payload, exists=exists, node2=node2, id_code=id_code)
+    tickets_id = build_tickets(session=session, id_message=id_message, payload=payload, exists=exists, node2=node2, phone_id=phone_id)
     message['tickets_id'] = tickets_id
     messages = ModelMessages(**message)
     session.add(messages)
@@ -46,8 +46,8 @@ def build_tickets(**kwargs):
     payload = kwargs.get('payload')
     node2 = kwargs.get('node2')
     session = kwargs.get('session')
-    id_code = kwargs.get('id_code')
-    payload['id_code'] = id_code
+    phone_id = kwargs.get('phone_id')
+    payload['phone_id'] = phone_id
     exists = kwargs.get('exists')
     id_message = kwargs.get('id_message')
     try:
@@ -66,7 +66,7 @@ def build_tickets(**kwargs):
             tk = tk.id
             break
 
-        payload_tk = {'id_tk': id_user, 'id_code': id_code, 'phone': phone_num, \
+        payload_tk = {'id_tk': id_user, 'phone_id': phone_id, 'phone': phone_num, \
                       'node2': node2, 'node3': "", 'node4': "", \
                       'timestamp': timestamp, 'last_id_msg': last_id_msg, 'id_name': name, 'image': image}
 
@@ -85,9 +85,9 @@ def build_tickets(**kwargs):
             check_response(response)
 
             if node3:
-                send_df_area(session, id_code, phone_destination, node2, node3)
+                send_df_area(session, phone_id, phone_destination, node2, node3)
             else:
-                send_message_df(session, id_code, phone_destination, node2)
+                send_message_df(session, phone_id, phone_destination, node2)
 
         else:
             node3_exist = False
@@ -123,7 +123,7 @@ def build_tickets(**kwargs):
                         payload_tk['node3'] = node3
                         response = sent_payload(payload_tk)
                         check_response(response)
-                        send_df_area(session, id_code, phone_destination, node2, node3)
+                        send_df_area(session, phone_id, phone_destination, node2, node3)
                         break
 
             if not node3_exist:
@@ -135,7 +135,7 @@ def build_tickets(**kwargs):
                             payload_tk['id'] = id
                             response = sent_payload(payload_tk)
                             check_response(response)
-                            send_message_df(session, id_code, phone_destination, node2)
+                            send_message_df(session, phone_id, phone_destination, node2)
                             break
 
             if create_new_tk and node3:
@@ -149,7 +149,7 @@ def build_tickets(**kwargs):
                 payload_tk['node3'] = node3
                 response = sent_payload(payload_tk)
                 check_response(response)
-                send_df_area(session, id_code, phone_destination, node2, node3)
+                send_df_area(session, phone_id, phone_destination, node2, node3)
 
         session.commit()
 
