@@ -75,7 +75,7 @@ class Query(graphene.ObjectType):
     # Tickets
     ticket = graphene.relay.Node.Field(schema_tickets.Tickets)
     ticket_list = SQLAlchemyConnectionField(lambda: schema_tickets.Tickets,
-                                            id_code=graphene.String(),
+                                            phone_id=graphene.String(),
                                             node2=graphene.String(),
                                             node3=graphene.String(),
                                             node4=graphene.String(),

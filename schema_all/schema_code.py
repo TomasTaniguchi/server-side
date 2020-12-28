@@ -14,7 +14,6 @@ class CodeAttribute:
     default_message = graphene.String(description="Default message for sent to number without sub_node")
     sent_area = graphene.Boolean(description="Sent list of areas")
 
-
 class Code(SQLAlchemyObjectType):
     """Code node."""
 
@@ -43,18 +42,22 @@ class CreateCode(graphene.Mutation):
         data['edited'] = now
         phone_number = data['phone_number']
         code_id = phone_functions.addPhone(phone_number)
-        data['id_code'] = code_id
+        data['phone_id'] = code_id
         id_code_str = str(code_id)
         data['qrcode_url'] = "http://localhost:5000/img_data/"+id_code_str+".png"
         code = ModelCode(**data)
-        session.add(code)
         entity = data['id_name_entity']
-        if code_id != '0000':
-            session.commit()
+        session.add(code)
+        session.commit()
+        if code_id:
+            #del data['qrcode_url']
+            return CreateCode(code=code)
+        else:
+            print("error create Code ")
         session.close()
 
-        return CreateCode(code=code)
-
+class QrCode(graphene.InputObjectType):
+    pass
 
 class UpdateCodeInput(graphene.InputObjectType, CodeAttribute):
     """Arguments to update a code."""

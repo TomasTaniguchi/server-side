@@ -9,7 +9,6 @@ headers = {
     "x-maytapi-key": API_TOKEN,
 }
 
-
 def setAckPreference():
     url = INSTANCE_URL + "/" + PRODUCT_ID + "/setAckPreference"
     payload = "{\"ack_delivery\": \"true\"}"
@@ -17,21 +16,18 @@ def setAckPreference():
     result = response.json()
     print(result)
 
-
 def addPhone(phone):
     url = INSTANCE_URL + "/" + PRODUCT_ID + "/addPhone"
     phone = str(phone)
     payload = "{\"number\": \"" + phone + "\"}"
+
     response = requests.request("POST", url, headers=headers, data=payload)
     result = response.json()
-    try:
-        id = result['id']
-    except:
-        id = '0000'
-
-    if id != '0000':
-        getQrCode(id)
-    return id
+    print('add phone result',result)
+    if 'id' in result:
+        return id
+    else:
+        pass
 
 
 def getQrCode(id_phone):

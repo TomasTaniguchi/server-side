@@ -22,7 +22,7 @@ def check_area(session, chain, id_name_entity):
 
 def send_message_df(session, code_id_value, phone_destination, id_name_entity):
 
-    sent_msg_df_list = session.query(ModelCode.sent_area).filter_by(id_code=code_id_value).first()
+    sent_msg_df_list = session.query(ModelCode.sent_area).filter_by(phone_id=code_id_value).first()
     sent_list = sent_msg_df_list.sent_area
     if sent_list:
         send_msg_areas_df(session, code_id_value, phone_destination, id_name_entity)
@@ -30,26 +30,26 @@ def send_message_df(session, code_id_value, phone_destination, id_name_entity):
         send_only_msg_df(session, code_id_value, phone_destination)
 
 
-def send_msg_areas_df(session, id_code, phone_destination, id_name_entity):
+def send_msg_areas_df(session, phone_id, phone_destination, id_name_entity):
     areas = get_list_area_name(session, id_name_entity)[0]
-    print("2 id_code: ", id_code)
-    default_msg = get_default_msg(session, id_code)
+    print("2 phone_id: ", phone_id)
+    default_msg = get_default_msg(session, phone_id)
     message = default_msg + "\n" + areas
-    response = sent_message(id_code, phone_destination, message)
+    response = sent_message(phone_id, phone_destination, message)
     check_response(response)
 
 
-def send_only_msg_df(session, id_code, phone_destination):
-    print("1 id_code: ", id_code)
-    default_msg = get_default_msg(session, id_code)
-    response = sent_message(id_code, phone_destination, default_msg)
+def send_only_msg_df(session, phone_id, phone_destination):
+    print("1 phone_id: ", phone_id)
+    default_msg = get_default_msg(session, phone_id)
+    response = sent_message(phone_id, phone_destination, default_msg)
     check_response(response)
 
 
-def send_df_area(session, id_code, phone_destination, id_name_entity, area):
+def send_df_area(session, phone_id, phone_destination, id_name_entity, area):
     default_msg = get_default_msg_area(session, id_name_entity, area)
-    print("3 id_code: ", id_code)
-    response = sent_message(id_code, phone_destination, default_msg)
+    print("3 phone_id: ", phone_id)
+    response = sent_message(phone_id, phone_destination, default_msg)
     check_response(response)
 
 
@@ -62,7 +62,7 @@ def create_tickets(session, body):
     product_id_value = body['product_id']
     user = body['user']
     user['product_id'] = product_id_value
-    user['id_code'] = str(body['id_code'])
+    user['phone_id'] = str(body['phone_id'])
     user['id_tk'] = body['user']['id']
     del user['id']
     user['timestamp'] = int(body['timestamp'])
@@ -80,7 +80,6 @@ def get_node3(session, body, id_name_entity):
         area = check_area(session, chain, id_name_entity)
         if area:
             node3 = area
-
     return node3
 
 

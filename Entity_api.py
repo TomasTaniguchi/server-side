@@ -14,7 +14,6 @@ import os
 
 app = Flask(__name__, static_folder='img_data')
 app.debug = True
-
 sockets = Sockets(app)
 
 

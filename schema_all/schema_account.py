@@ -7,7 +7,6 @@ from functions import random_code
 import graphene
 import utils
 
-
 # Create a generic class to mutualize description of account attributes for both queries and mutations
 
 class AccountAttribute:

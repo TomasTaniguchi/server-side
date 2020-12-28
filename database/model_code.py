@@ -9,7 +9,7 @@ class ModelCode(Base):
 
     __tablename__ = 'Code'
     id = Column('id', Integer, primary_key=True, doc="Id of code is auto_increment.")
-    id_code = Column('id_code', String(50), unique=True, doc="Id of code is not auto_increment.")
+    phone_id = Column('phone_id', String(50), unique=True, doc="Id of code is not auto_increment.")
     id_name_entity = Column('id_name_entity', String(15), ForeignKey('Entity.id_name'), doc="Id of the entity.")
     phone_number = Column('phone_number', String(15), doc="Code number of the entity.")
     code_entity = Column('code_entity', Boolean, default=0, doc="if is code of entity = True, default ")

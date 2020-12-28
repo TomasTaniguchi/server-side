@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from .model_messages import ModelMessages
 
 def node_default(context):
-    return context.get_current_parameters()['id_code']
+    return context.get_current_parameters()['phone_id']
 
 
 class ModelTickets(Base):
@@ -15,7 +15,7 @@ class ModelTickets(Base):
     id = Column('id', Integer, primary_key=True, doc=" unique Id of the ticket.")
     id_tk = Column('id_tk', String(50), doc="Id of the ticket")
     product_id = Column('product_id', String(50), doc="Product id identity")
-    id_code = Column('id_code', String(50), default='', doc="Id of the destination code.")
+    phone_id = Column('phone_id', String(50), default='', doc="Id of the destination code.")
     node2 = Column('node2', String(30), default='', doc="@Entity")
     node3 = Column('node3', String(30), default='', doc="#area")
     node4 = Column('node4', String(30), default='', doc=".account")

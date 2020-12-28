@@ -12,7 +12,7 @@ class ContactAttribute:
     type_contact = graphene.String(description="")
     name_contact = graphene.String(description="")
     image_contact = graphene.String(description="")
-    id_code = graphene.String(description="")
+    phone_id = graphene.String(description="")
     node2 = graphene.String(description="")
     node3 = graphene.String(description="")
     node4 = graphene.String(description="")

@@ -42,7 +42,7 @@ class CreateEntity(graphene.Mutation):
         data['edited'] = now
         entity = ModelEntity(**data)
         session.add(entity)
-        session = createSubscription(db_session=session, entity=data['id_name'], id_name_account=data['id_name_account'], now=now)
+        session = createSub.scription(db_session=session, entity=data['id_name'], id_name_account=data['id_name_account'], now=now)
         session.commit()
         session.close()
         return CreateEntity(entity=entity)

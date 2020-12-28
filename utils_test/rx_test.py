@@ -1,7 +1,7 @@
 from rx import Observable
 import json
 
-payload_tickets = {'id_tk': '5493764921348@c.us', 'id_code': 3387, 'node2': '@Cyffffberlink', 'node3': '#servicio', 'node4': '',
+payload_tickets = {'id_tk': '5493764921348@c.us', 'phone_id': 3387, 'node2': '@Cyffffberlink', 'node3': '#servicio', 'node4': '',
      'timestamp': 1594311359}
 
 

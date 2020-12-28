@@ -1,0 +1,23 @@
+CreateEntity
+mutation{createCode(input:{idNameEntity:"@Cyberlink" phoneNumber:"5493764921348" defaultMessage:"Bienvenido a Cyberlink"}){code{id idCode}}}
+
+CreateArea
+mutation{createArea(input:{nameArea:"#servicio" fkIdEntity:"@Cyberlink" }){area{created}}}
+
+Windows4
+query{memberList{edges{node{edited}}}}
+
+be member
+mutation{createMember(input:{idNameAccountMember:".denis" codeSub:"3707" sourceSub:"@Cyberlink#ventas"}){memberN{subscriptionsId}}}
+
+createMessage
+mutation{CreateMessage(messageData:{type:"text" text:"you can do it"} ticketData:{id:14 idTk:"QWNjb3VudDoy"} idAccount:{id:"QWNjb3VudDoy"}){message{timestamp}}}
+
+accountList
+query{accountList{edges{node{id idName}}}}
+
+createContact
+mutation{createContact(input:{idAccount:"QWNjb3VudDox" idContact: "QWNjb3VudDoy" typeContact : "entity" nameContact: "sergio"  node2: "" node3:  "" node4 : ".sergio"  phone: "" }
+){contact{id}}
+}
+

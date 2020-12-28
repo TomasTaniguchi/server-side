@@ -15,14 +15,14 @@ def get_list_area_name(session, id_name_entity):
     return areas, list_area
 
 
-def get_id_name_entity(session, id_code):
-    get_entity = session.query(ModelCode.id_name_entity).filter_by(id_code=id_code).first()
+def get_id_name_entity(session, phone_id):
+    get_entity = session.query(ModelCode.id_name_entity).filter_by(phone_id=phone_id).first()
     return get_entity.id_name_entity
 
 
-def get_default_msg(session, id_code):
-    default_msg = session.query(ModelCode.default_message).filter_by(id_code=id_code).first()
-    print("id_code",id_code)
+def get_default_msg(session, phone_id):
+    default_msg = session.query(ModelCode.default_message).filter_by(phone_id=phone_id).first()
+    print("phone_id",phone_id)
     return default_msg.default_message
 
 

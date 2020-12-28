@@ -32,7 +32,7 @@ class TicketsAttribute:
     id = graphene.Int(description="unique id of the ticket")
     id_tk = graphene.String(description="id of the ticket")
     product_id = graphene.String(description="Product id identity")
-    id_code = graphene.String(description="Id of the destination phone.")
+    phone_id = graphene.String(description="Id of the destination phone.")
     node2 = graphene.String(description="node2 of subscriptions")
     node3 = graphene.String(description="node3 of subscriptions")
     node4 = graphene.String(description="node4 of subscriptions")

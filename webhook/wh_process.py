@@ -7,7 +7,8 @@ import sys, traceback
 
 traceback_template = '''Traceback (most recent call last):
   File "%(filename)s", line %(lineno)s, in %(id_name)s
-%(type)s: %(message)s\n''' # Skipping the "actual line" item
+%(type)s: %(message)s\n'''  # Skipping the "actual line" item
+
 
 def message_sent(payload):
     print(payload)
@@ -22,27 +23,31 @@ def message_sent(payload):
 def message_received(payload):
     session = base.db_session()
     print("message_received")
-    print(payload)
+    print("esto es payload ", payload)
     message = payload['message']
     phone_id = str(payload['phone_id'])
     id_message = message['id']
-    node2 = get_id_name_entity(session, phone_id)
+    node2 = get_id_name_entity(session, phone_id)  # TTech
     user = payload['user']
     id_user = user['id']
-    exists = get_ticket(session, id_user, node2)
-    tickets_id = build_tickets(session=session, id_message=id_message, payload=payload, exists=exists, node2=node2, phone_id=phone_id)
+    exists = get_ticket(session, id_user, node2)  # returns all row tk where id_tk = user whatsapp juan y TTech
+    tickets_id = build_tickets(session=session, id_message=id_message, payload=payload, exists=exists, node2=node2,
+                               phone_id=phone_id)
     message['tickets_id'] = tickets_id
     messages = ModelMessages(**message)
     session.add(messages)
+    session.commit()
+
     return
 
 
 def act(payload):
-    #print(payload)
+    # print(payload)
     pass
 
+
 def build_tickets(**kwargs):
-    print(kwargs)
+    print("diccionario build_tickets", kwargs)
     payload = kwargs.get('payload')
     node2 = kwargs.get('node2')
     session = kwargs.get('session')
@@ -62,6 +67,7 @@ def build_tickets(**kwargs):
         node3 = get_node3(session, payload, node2)
 
         tk = False
+
         for tk in exists:
             tk = tk.id
             break
@@ -95,9 +101,9 @@ def build_tickets(**kwargs):
             for tk in exists:
                 if tk.node3 != "":
                     node3_exist = True
-                if node3:
-                    if node3 == tk.node3:
-                        create_new_tk = False
+                if node3 and node3 == tk.node3:
+                    # if node3 == tk.node3:
+                    create_new_tk = False
             if node3_exist:
                 for tk in exists:
                     if not node3 and tk.current:
@@ -111,7 +117,6 @@ def build_tickets(**kwargs):
                         response = sent_payload(payload_tk)
                         check_response(response)
                         break
-
                     if node3 == tk.node3:
                         session = set_current_false(session, exists)
                         tk.timestamp = timestamp
@@ -161,7 +166,7 @@ def build_tickets(**kwargs):
             'lineno': exc_traceback.tb_lineno,
             'id_name': exc_traceback.tb_frame.f_code.co_name,
             'type': exc_type.__name__,
-            'message' : str(exc_value),  # or see traceback._some_str()
+            'message': str(exc_value),  # or see traceback._some_str()
         }
 
         del (exc_type, exc_value, exc_traceback)
@@ -180,7 +185,6 @@ def set_current_false(session, tks):
         tk.current = 0
         session.merge(tk)
     return session
-
 
 
 def check_response(response):

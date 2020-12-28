@@ -21,6 +21,6 @@ def sent_message(source, destination, message):
     return response
 
 def sent_payload(payload):
-    url = "http://localhost:5000/getpayload"
+    url = "http://localhost:5000/payload_subscription"
     response = requests.request("POST", url, json=payload)
     return response

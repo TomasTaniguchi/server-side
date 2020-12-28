@@ -3,7 +3,7 @@ import time
 import multiprocessing
 from rx import Observable
 from rx.concurrency import ThreadPoolScheduler
-from webhook import wh_procces
+from webhook import wh_process
 optimal_thread_count = multiprocessing.cpu_count() + 1
 poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 from graphene_sqlalchemy import SQLAlchemyObjectType
@@ -32,7 +32,7 @@ class NewMessageAttribute:
 class NewTicketAttribute:
     id = graphene.Int(description="unique Id of the ticket.")
     id_tk = graphene.String(required=True, description="Id of the ticket")
-    id_code = graphene.String(description="Id of the destination code.")
+    phone_id = graphene.String(description="Id of the destination code.")
     node2 = graphene.String(description="@Entity")
     node3 = graphene.String(description="#Area")
     node4 = graphene.String(description=".account")
@@ -121,7 +121,7 @@ class SentMessage(graphene.Mutation):
         ticket_data['timestamp'] = current_time
         ticket_data['last_id_msg'] = id_msg
         if ticket_data['id'] is None:
-            if 'phone' is not ticket_data:
+            if 'phone' != ticket_data:
                 account_data = session.query(ModelAccount).filter_by(id=id_account['id']).first()
             ticket_data['name'] = account_data.name
             ticket_data['image'] = account_data.profile_img
@@ -139,7 +139,7 @@ class SentMessage(graphene.Mutation):
 
         ticket_data['id'] = id_from_tk
 
-        payload_tk = {'id_tk': "", 'id_code': "", 'phone': "",\
+        payload_tk = {'id_tk': "", 'phone_id': "", 'phone': "",\
                       'node2': "", 'node3': "", 'node4': "",\
                       'timestamp': "", 'last_id_msg': "",\
                       'id_name': "", 'image': "", 'id': "" }
@@ -156,7 +156,7 @@ class SentMessage(graphene.Mutation):
 
         session.commit()
 
-        if 'phone' is ticket_data:
+        if 'phone' == ticket_data:
             print("sent Message whatsapp")
             #Observable.of().map(lambda i: (i['type'])) \
             #    .map(lambda i: ).subscribe_on(poo_scheduler).subscribe()
